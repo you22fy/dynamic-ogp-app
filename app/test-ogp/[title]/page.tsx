@@ -1,9 +1,12 @@
-// app/test-ogp/[title]/page.tsx
-export async function generateMetadata({
-  params,
-}: {
-  params: { title: string };
-}) {
+type GenerateMetadataProps = {
+  params: Promise<{ title: string }>;
+};
+
+type ArticlePageProps = {
+  params: Promise<{ title: string }>;
+};
+
+export async function generateMetadata({ params }: GenerateMetadataProps) {
   const { title } = await params;
   const decodedTitle = decodeURIComponent(title);
   return {
@@ -21,11 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { title: string };
-}) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const { title } = await params;
   const decodedTitle = decodeURIComponent(title);
   return (

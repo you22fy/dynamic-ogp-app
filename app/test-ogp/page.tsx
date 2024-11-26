@@ -40,13 +40,13 @@ export default function TestOGPGenerator() {
           />
         </div>
 
-        <div className="border rounded p-4">
+        {/* <div className="border rounded p-4">
           <h2 className="text-lg font-medium mb-2">シェア用URL：</h2>
           <code className="block bg-gray-100 p-2 rounded break-all">
             {window.location.origin + shareableUrl}
           </code>
         </div>
-
+ */}
         <button
           onClick={handlePreview}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
