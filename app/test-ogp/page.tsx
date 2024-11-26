@@ -1,25 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function TestOGP() {
+export default function TestOGPGenerator() {
   const [title, setTitle] = useState("テストタイトル");
-  const [baseUrl, setBaseUrl] = useState("");
-
-  useEffect(() => {
-    setBaseUrl(window.location.origin);
-  }, []);
+  const router = useRouter();
 
   const ogImageUrl = `/api/og?title=${encodeURIComponent(title)}`;
-  const fullOgImageUrl = `${baseUrl}${ogImageUrl}`;
+  const shareableUrl = `/test-ogp/${encodeURIComponent(title)}`;
+
+  const handlePreview = () => {
+    router.push(shareableUrl);
+  };
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">OGP画像テストページ</h1>
+      <h1 className="text-2xl font-bold mb-4">OGP画像生成・テストツール</h1>
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          タイトル
+          記事タイトル
         </label>
         <input
           type="text"
@@ -31,7 +32,7 @@ export default function TestOGP() {
 
       <div className="space-y-4">
         <div className="border rounded p-4">
-          <h2 className="text-lg font-medium mb-2">生成されたOGP画像：</h2>
+          <h2 className="text-lg font-medium mb-2">OGP画像プレビュー：</h2>
           <img
             src={ogImageUrl}
             alt="OGP Preview"
@@ -40,52 +41,27 @@ export default function TestOGP() {
         </div>
 
         <div className="border rounded p-4">
-          <h2 className="text-lg font-medium mb-2">
-            完全なOGP画像URL（OGPチェッカー用）：
-          </h2>
+          <h2 className="text-lg font-medium mb-2">シェア用URL：</h2>
           <code className="block bg-gray-100 p-2 rounded break-all">
-            {fullOgImageUrl}
+            {window.location.origin + shareableUrl}
           </code>
         </div>
+
+        <button
+          onClick={handlePreview}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          実際のページをプレビュー
+        </button>
 
         <div className="border rounded p-4">
-          <h2 className="text-lg font-medium mb-2">HTMLメタタグ：</h2>
-          <code className="block bg-gray-100 p-2 rounded break-all">
-            {`<meta property="og:image" content="${fullOgImageUrl}" />
-<meta property="og:title" content="${title}" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="${baseUrl}" />`}
-          </code>
-        </div>
-
-        <div className="mt-4 space-y-2">
-          <h2 className="text-lg font-medium">OGPチェックツール：</h2>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>
-              <a
-                href={`https://ogp.buta3.net/?url=${encodeURIComponent(
-                  baseUrl
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                OGP Checker で確認
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://developers.facebook.com/tools/debug/?q=${encodeURIComponent(
-                  baseUrl
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                Facebook Debugger で確認
-              </a>
-            </li>
-          </ul>
+          <h2 className="text-lg font-medium mb-2">使い方：</h2>
+          <ol className="list-decimal pl-5 space-y-2">
+            <li>上記のフォームでタイトルを入力</li>
+            <li>「実際のページをプレビュー」をクリック</li>
+            <li>表示されたページのURLをSNSでシェア</li>
+            <li>シェアされたURLには正しいOGP情報が含まれています</li>
+          </ol>
         </div>
       </div>
     </div>
