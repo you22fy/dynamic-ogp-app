@@ -4,7 +4,8 @@ export async function generateMetadata({
 }: {
   params: { title: string };
 }) {
-  const decodedTitle = decodeURIComponent(params.title);
+  const { title } = await params;
+  const decodedTitle = decodeURIComponent(title);
   return {
     title: decodedTitle,
     openGraph: {
@@ -20,8 +21,13 @@ export async function generateMetadata({
   };
 }
 
-export default function ArticlePage({ params }: { params: { title: string } }) {
-  const decodedTitle = decodeURIComponent(params.title);
+export default async function ArticlePage({
+  params,
+}: {
+  params: { title: string };
+}) {
+  const { title } = await params;
+  const decodedTitle = decodeURIComponent(title);
   return (
     <div className="p-8 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{decodedTitle}</h1>
