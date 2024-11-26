@@ -81,22 +81,8 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (e) {
-    return new Response(`Failed to generate image`, {
+    return new Response(`Failed to generate image${e}`, {
       status: 500,
     });
   }
 }
-
-// pages/_app.tsx や app/layout.tsx での使用例
-export const metadata = {
-  openGraph: {
-    title: "ページタイトル",
-    images: [
-      {
-        url: "/api/og?title=ページタイトル",
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-};
